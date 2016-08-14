@@ -129,8 +129,9 @@ void uwsgi_emperor_blacklist_add(char *id) {
 			uebi->throttle_level = uebi->throttle_level / 2;
 		}
 		uebi->attempt++;
-		if (uebi->attempt == 2) {
-			uwsgi_log_verbose("[emperor] unloyal bad behaving vassal found: %s throttling it...\n", id);
+		if (uebi->attempt >= 2) {
+			uwsgi_log_verbose("[emperor] unloyal bad behaving vassal found: %s throttling it... attempt is %d\n",
+							  id, uebi->attempt);
 		}
 		return;
 	}

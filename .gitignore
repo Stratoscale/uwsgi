@@ -14,6 +14,7 @@
 /uwsgi
 /uwsgibuild.*
 /core/config_py.c
+.idea/
 
 /t/ring/target
 /t/spooler/spooldir/uwsgi_*
@@ -23,3 +24,4 @@ core/dot_h.c
 +# coverity
 +/cov-int/
 +uwsgi.tar.xz
+CMakeLists.txt
