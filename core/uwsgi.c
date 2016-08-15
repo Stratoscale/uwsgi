@@ -3530,13 +3530,10 @@ void uwsgi_ignition() {
 	// ready to accept request, if i am a vassal signal Emperor about it
     uwsgi_log("@@@@@@@@@@@@@@@@@@@@@@@@ WOW! emperor? uwsgi.mywid %d pid %d\n", uwsgi.mywid, uwsgi.mypid);
         if (uwsgi.has_emperor && uwsgi.mywid == 1) {
-                char byte = 5;
-                if (write(uwsgi.emperor_fd, &byte, 1) != 1) {
-                        uwsgi_error("emperor-i-am-ready-to-accept/write()");
+            uwsgi_error("emperor-i-am-ready-to-accept/write()");
 			uwsgi_log_verbose("lost communication with the Emperor, goodbye...\n");
 			gracefully_kill_them_all(0);
 			exit(1);
-                }
         }
 
 	// run accepting hooks
