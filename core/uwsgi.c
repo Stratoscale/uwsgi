@@ -1287,6 +1287,7 @@ void goodbye_cruel_world() {
 void kill_them_all(int signum) {
 
 	if (uwsgi_instance_is_dying) return;
+    uwsgi_log("@@@@@@@ uwsgi.status.brutally_destroying 1\n");
 	uwsgi.status.brutally_destroying = 1;
 
 	// unsubscribe if needed
@@ -1316,6 +1317,7 @@ void kill_them_all(int signum) {
 void gracefully_kill_them_all(int signum) {
 
         if (uwsgi_instance_is_dying) return;
+        uwsgi_log("@@@@@@@ uwsgi.status.gracefully_destroying\n");
         uwsgi.status.gracefully_destroying = 1;
 
         // unsubscribe if needed
@@ -1354,9 +1356,10 @@ void grace_them_all(int signum) {
 		}
 		return;
 	}
-	
 
-	uwsgi.status.gracefully_reloading = 1;
+
+    uwsgi_log("@@@@@@@ uwsgi.status.gracefully_reloading\n");
+    uwsgi.status.gracefully_reloading = 1;
 
 	uwsgi_destroy_processes();
 
@@ -1407,6 +1410,7 @@ void reap_them_all(int signum) {
 	if (uwsgi_instance_is_reloading)
 		return;
 
+    uwsgi_log("@@@@@@@ uwsgi.status.brutally_reloading\n");
 	uwsgi.status.brutally_reloading = 1;
 
 	if (!uwsgi.workers) return;
@@ -2913,6 +2917,7 @@ int uwsgi_start(void *v_argv) {
 		uwsgi.sockets = NULL;
 		uwsgi.numproc = 1;
 		// hack to destroy the instance after command exit
+        uwsgi_log("@@@@@@@ uwsgi.status.brutally_destroying 2\n");
 		uwsgi.status.brutally_destroying = 1;
 	}
 
