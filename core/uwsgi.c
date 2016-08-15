@@ -1293,6 +1293,9 @@ void kill_them_all(int signum) {
 	uwsgi_unsubscribe_all();
 
 	uwsgi_log("SIGINT/SIGQUIT received...killing workers...\n");
+	uwsgi_log("My process ID : %d\n", getpid());
+	uwsgi_log("My parent's ID: %d\n", getppid());
+    uwsgi_backtrace(uwsgi.backtrace_depth);
 
 	int i;
 	for (i = 1; i <= uwsgi.numproc; i++) {
@@ -2983,6 +2986,7 @@ unsafe:
 	uwsgi.mypid = getpid();
 	masterpid = uwsgi.mypid;
 	uwsgi.workers[0].pid = masterpid;
+    uwsgi_log("@@@@@@@@@@@@@@@@@@@@@@@@ masterpid is %d\n", masterpid);
 
 	// initialize mules and farms
 	uwsgi_setup_mules_and_farms();
@@ -3197,6 +3201,7 @@ next2:
 		uwsgi.workers[1].id = 1;
 		uwsgi.workers[1].last_spawn = uwsgi_now();
 		uwsgi.workers[1].manage_next_request = 1;
+        uwsgi_log("@@@@@@@@@@@@@@@@@@@@@@@@ spawned worker 1\n");
 		uwsgi.mywid = 1;
 		uwsgi.respawn_delta = uwsgi_now();
 	}
@@ -3218,7 +3223,8 @@ next2:
 				nproc = uwsgi.cheaper_count;
 			for (i = 1; i <= uwsgi.numproc; i++) {
 				if (i <= nproc) {
-					if (uwsgi_respawn_worker(i))
+                    uwsgi_log("@@@@@@@@@@@@@@@@@@@@@@@@ spawned worker %d no cheap\n", i);
+                    if (uwsgi_respawn_worker(i))
 						break;
 					uwsgi.respawn_delta = uwsgi_now();
 				}
@@ -3229,7 +3235,8 @@ next2:
 		}
 		else {
 			for (i = 2 - uwsgi.master_process; i < uwsgi.numproc + 1; i++) {
-				if (uwsgi_respawn_worker(i))
+                uwsgi_log("@@@@@@@@@@@@@@@@@@@@@@@@ spawned worker %d yes cheap\n", i);
+                if (uwsgi_respawn_worker(i))
 					break;
 				uwsgi.respawn_delta = uwsgi_now();
 			}
@@ -3521,6 +3528,7 @@ void uwsgi_ignition() {
 	// mark the worker as "accepting" (this is a mark used by chain reloading)
 	uwsgi.workers[uwsgi.mywid].accepting = 1;
 	// ready to accept request, if i am a vassal signal Emperor about it
+    uwsgi_log("@@@@@@@@@@@@@@@@@@@@@@@@ WOW! emperor? uwsgi.mywid %d pid %d\n", uwsgi.mywid, uwsgi.mypid);
         if (uwsgi.has_emperor && uwsgi.mywid == 1) {
                 char byte = 5;
                 if (write(uwsgi.emperor_fd, &byte, 1) != 1) {

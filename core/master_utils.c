@@ -675,6 +675,7 @@ int uwsgi_respawn_worker(int wid) {
 		signal(SIGTSTP, worker_wakeup);
 		uwsgi.mywid = wid;
 		uwsgi.mypid = getpid();
+        uwsgi_log("@@@@@@@@@@@@@@@@@@@@@@@@ WOW! spawning worker %d pid %d\n", wid, uwsgi.mypid);
 		// pid is updated by the master
 		//uwsgi.workers[uwsgi.mywid].pid = uwsgi.mypid;
 		// OVERENGINEERING (just to be safe)
