@@ -1684,6 +1684,7 @@ struct uwsgi_logging_options {
 	int zero;
 	int _4xx;
 	int _5xx;
+	int skip_get;
 	int sendfile;
 	int ioerror;
 	uint32_t slow;

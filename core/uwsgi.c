@@ -743,6 +743,7 @@ static struct uwsgi_option uwsgi_base_options[] = {
 	{"log-slow", required_argument, 0, "log requests slower than the specified number of milliseconds", uwsgi_opt_set_int, &uwsgi.logging_options.slow, 0},
 	{"log-4xx", no_argument, 0, "log requests with a 4xx response", uwsgi_opt_true, &uwsgi.logging_options._4xx, 0},
 	{"log-5xx", no_argument, 0, "log requests with a 5xx response", uwsgi_opt_true, &uwsgi.logging_options._5xx, 0},
+	{"log-skip-get", no_argument, 0, "do not log GET requests", uwsgi_opt_true, &uwsgi.logging_options.skip_get, 0},
 	{"log-big", required_argument, 0, "log requestes bigger than the specified size", uwsgi_opt_set_64bit,  &uwsgi.logging_options.big, 0},
 	{"log-sendfile", required_argument, 0, "log sendfile requests", uwsgi_opt_true, &uwsgi.logging_options.sendfile, 0},
 	{"log-ioerror", required_argument, 0, "log requests with io errors", uwsgi_opt_true, &uwsgi.logging_options.ioerror, 0},

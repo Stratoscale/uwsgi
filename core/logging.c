@@ -621,6 +621,9 @@ void log_request(struct wsgi_request *wsgi_req) {
 	if (uwsgi.logging_options.ioerror && wsgi_req->read_errors > 0 && wsgi_req->write_errors > 0) {
 		goto logit;
 	}
+        if (uwsgi.logging_options.skip_get && !strcmp(wsgi_req->method, "GET")) {
+                goto logit;
+        }
 
 	if (!log_it)
 		return;
